@@ -7,7 +7,7 @@ import CustomCursor from './components/CustomCursor';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/HALOALIGNER">
       <CustomCursor />
       <Routes>
         <Route path="/" element={<Home />} />
