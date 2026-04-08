@@ -1,0 +1,49 @@
+import React from 'react';
+import { motion } from 'motion/react';
+
+const steps = [
+  { num: '01', title: 'Take Your Impression', desc: 'Order your at-home kit or visit a local partner clinic. We create a precise 3D model of your teeth.' },
+  { num: '02', title: 'Get Your Plan', desc: 'A licensed orthodontist reviews your case and designs a custom treatment roadmap just for you.' },
+  { num: '03', title: 'Begin Treatment', desc: 'Custom aligners arrive at your door. Wear them 22 hours daily and track progress in our app.' },
+  { num: '04', title: 'Show Off That Smile', desc: 'Complete treatment, receive your free retainers, and enjoy the confidence of your new smile!' },
+];
+
+export default function HowItWorks() {
+  return (
+    <section id="how" className="bg-[#D5E100] py-28 px-6 md:px-15">
+      <div className="text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 26 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+        >
+          <span className="section-tag">The Process</span>
+          <h2 className="section-title">Your perfect smile in<br />four simple steps</h2>
+        </motion.div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-0 mt-18 relative">
+        {/* Connector Line */}
+        <div className="hidden lg:block absolute top-9 left-[12%] right-[12%] h-[2px] bg-[rgba(26,86,219,0.15)]" />
+
+        {steps.map((step, i) => (
+          <motion.div
+            key={step.num}
+            initial={{ opacity: 0, y: 26 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: i * 0.1 }}
+            className="text-center px-5 flex flex-col items-center"
+          >
+            <div className="w-[72px] h-[72px] bg-[#1A56DB] rounded-full flex items-center justify-center mb-6 relative z-10 shadow-[0_8px_24px_rgba(26,86,219,0.28)] transition-all hover:-translate-y-1.5 hover:scale-105 hover:shadow-[0_18px_38px_rgba(26,86,219,0.36)]">
+              <span className="font-syne font-extrabold text-2xl text-[#D5E100]">{step.num}</span>
+            </div>
+            <h3 className="font-syne text-[1.05rem] font-extrabold text-[#1A56DB] mb-2.5">{step.title}</h3>
+            <p className="text-[#5B6E99] text-[0.88rem] leading-[1.65] font-medium">{step.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+}
