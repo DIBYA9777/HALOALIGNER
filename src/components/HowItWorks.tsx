@@ -2,10 +2,31 @@ import React from 'react';
 import { motion } from 'motion/react';
 
 const steps = [
-  { num: '01', title: 'Take Your Impression', desc: 'Order your at-home kit or visit a local partner clinic. We create a precise 3D model of your teeth.' },
-  { num: '02', title: 'Get Your Plan', desc: 'A licensed orthodontist reviews your case and designs a custom treatment roadmap just for you.' },
-  { num: '03', title: 'Begin Treatment', desc: 'Custom aligners arrive at your door. Wear them 22 hours daily and track progress in our app.' },
-  { num: '04', title: 'Show Off That Smile', desc: 'Complete treatment, receive your free retainers, and enjoy the confidence of your new smile!' },
+  { 
+    num: '01', 
+    title: 'Start your Dental practice', 
+    desc: 'Pre-treatment records: Intra-oral scan, Photography, Radiography.' 
+  },
+  { 
+    num: '02', 
+    title: 'Upload Records', 
+    desc: 'Upload your pre-treatment records on doctor dashboard.' 
+  },
+  { 
+    num: '03', 
+    title: 'Get your plan', 
+    desc: 'Receive your plan and Approve your plan.' 
+  },
+  { 
+    num: '04', 
+    title: 'Start your Aligner practice', 
+    desc: 'Commence aligner treatment with professional supervision.' 
+  },
+  { 
+    num: '05', 
+    title: 'Post treatment records', 
+    desc: 'Upload your post treatment plan & get retainers free.' 
+  },
 ];
 
 export default function HowItWorks() {
@@ -19,13 +40,13 @@ export default function HowItWorks() {
           transition={{ duration: 0.7 }}
         >
           <span className="section-tag">The Process</span>
-          <h2 className="section-title">Your perfect smile in<br />four simple steps</h2>
+          <h2 className="section-title">Your professional practice in<br />five simple steps</h2>
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-0 mt-18 relative">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-y-12 lg:gap-0 mt-20 relative">
         {/* Connector Line */}
-        <div className="hidden lg:block absolute top-9 left-[12%] right-[12%] h-[2px] bg-[rgba(26,86,219,0.15)]" />
+        <div className="hidden lg:block absolute top-[36px] left-[10%] right-[10%] h-[2px] bg-[rgba(26,86,219,0.15)]" />
 
         {steps.map((step, i) => (
           <motion.div

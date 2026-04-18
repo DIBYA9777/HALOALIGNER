@@ -14,8 +14,23 @@ export default function CTA() {
           transition={{ duration: 0.7 }}
         >
           <span className="section-tag bg-[rgba(255,255,255,0.08)] border-[rgba(255,255,255,0.18)] text-[rgba(255,255,255,0.65)]">Ready to Start?</span>
-          <h2 className="section-title text-white max-w-[640px] mx-auto mb-4">Join 50,000+ people who chose<br />a better smile</h2>
-          <p className="section-sub text-[rgba(255,255,255,0.50)] mx-auto mb-10 text-center">Begin your smile journey today. Free consultation. No commitments.</p>
+          <h2 className="section-title text-white max-w-[640px] mx-auto mb-4">Partnered with 100+<br />happy Dental Clinics</h2>
+          <p className="section-sub text-[rgba(255,255,255,0.50)] mx-auto mb-8 text-center text-sm">Experience 100% Ortho Dentist Directed treatment at 40% less cost.</p>
+          
+          <div className="flex flex-wrap gap-8 justify-center mb-12">
+            <div className="text-center">
+              <div className="text-[#D5E100] font-syne text-3xl font-extrabold mb-1">100+</div>
+              <div className="text-white text-[0.65rem] uppercase font-bold tracking-widest opacity-60">happy Dental Clinics</div>
+            </div>
+            <div className="text-center">
+              <div className="text-[#D5E100] font-syne text-3xl font-extrabold mb-1">40%</div>
+              <div className="text-white text-[0.65rem] uppercase font-bold tracking-widest opacity-60">Less cost</div>
+            </div>
+            <div className="text-center">
+              <div className="text-[#D5E100] font-syne text-3xl font-extrabold mb-1">100%</div>
+              <div className="text-white text-[0.65rem] uppercase font-bold tracking-widest opacity-60">Ortho Dentist Directed</div>
+            </div>
+          </div>
           
           <div className="flex flex-wrap gap-3.5 justify-center">
             <a 
