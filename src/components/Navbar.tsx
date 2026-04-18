@@ -47,7 +47,7 @@ export default function Navbar() {
                 <HashLink
                   smooth
                   to={link.href}
-                  className="relative text-[#5B6E99] text-[0.92rem] font-semibold transition-colors hover:text-[#1A56DB] group"
+                  className="relative text-[#1A56DB] text-[0.92rem] font-bold transition-colors hover:text-blue-700 group uppercase tracking-tight"
                 >
                   {link.name}
                   <span className="absolute bottom-[-3px] left-0 right-0 h-[2px] bg-[#1A56DB] scale-x-0 group-hover:scale-x-100 transition-transform origin-right group-hover:origin-left duration-300" />
@@ -55,7 +55,7 @@ export default function Navbar() {
               ) : (
                 <Link
                   to={link.href}
-                  className="relative text-[#5B6E99] text-[0.92rem] font-semibold transition-colors hover:text-[#1A56DB] group"
+                  className="relative text-[#1A56DB] text-[0.92rem] font-bold transition-colors hover:text-blue-700 group uppercase tracking-tight"
                 >
                   {link.name}
                   <span className="absolute bottom-[-3px] left-0 right-0 h-[2px] bg-[#1A56DB] scale-x-0 group-hover:scale-x-100 transition-transform origin-right group-hover:origin-left duration-300" />
