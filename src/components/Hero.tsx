@@ -68,7 +68,7 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.3 }}
           className="flex flex-wrap gap-3.5"
         >
-          <a href="#cta" className="btn-solid">Start Your Smile Journey</a>
+          <a href="#cta" className="btn-solid">Start Your Aligner Practice </a>
           <a href="#how" className="btn-glass">See How It Works →</a>
         </motion.div>
 
