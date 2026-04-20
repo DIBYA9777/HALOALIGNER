@@ -2,12 +2,11 @@ import React from 'react';
 import { motion } from 'motion/react';
 
 const cards = [
-  { icon: '🔬', title: '3D Precision Modeling', desc: 'State-of-the-art scanning technology maps every contour of your teeth for a perfect, comfortable fit.' },
-  { icon: '📱', title: 'Smart Progress App', desc: 'Track every aligner stage, get doctor check-ins, and celebrate milestones in our intuitive mobile app.' },
-  { icon: '💬', title: '24/7 Expert Support', desc: 'Questions at midnight? Our orthodontic team is always available via chat, video, or call.' },
-  { icon: '🛡️', title: 'Smile Guarantee', desc: 'Complete treatment and not satisfied? We keep refining your plan at absolutely no additional cost.' },
-  { icon: '♻️', title: 'Eco-Friendly Materials', desc: 'BPA-free, sustainably sourced materials. Good for your smile, good for the planet.' },
-  { icon: '🎁', title: 'Free Retainers Included', desc: 'Every treatment includes custom retainers to protect your results forever. Zero hidden fees.' },
+  { icon: '🔬', title: '3D Precision Modelling', desc: 'Advanced 3D imaging technology to create highly accurate dental models for perfectly fitted aligners.' },
+  { icon: '🦷', title: 'Bio-Compatible Materials', desc: 'Crafted from medical-grade, BPA-free materials that ensure comfort and safe, effective tooth alignment.' },
+  { icon: '🎁', title: 'Free Retainers Included', desc: 'Protect your new smile forever. We include high-quality custom retainers with every treatment plan.' },
+  { icon: '💬', title: 'Expert Support', desc: 'Access to a dedicated team of clinical professionals to guide you and answer your questions anytime.' },
+  { icon: '✨', title: 'Enhance Your Smile', desc: 'Achieve the radiant, confident smile you deserve with professional-grade clear aligner technology.' },
 ];
 
 export default function Showcase() {

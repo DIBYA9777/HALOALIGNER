@@ -59,7 +59,7 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.2 }}
           className="text-[1.05rem] text-[#5B6E99] leading-[1.75] max-w-[460px] mb-10 font-medium"
         >
-          Doctor-directed, delivered to your door. Straighten your smile discreetly — up to 40% less than traditional braces.
+          Doctor-directed, delivered to your clinic. Straighten your smile discreetly.
         </motion.p>
 
         <motion.div

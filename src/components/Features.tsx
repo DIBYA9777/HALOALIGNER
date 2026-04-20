@@ -2,10 +2,10 @@ import React from 'react';
 import { motion } from 'motion/react';
 
 const features = [
-  { icon: '✨', title: 'Invisible Fit', desc: 'Clear, custom-molded aligners virtually undetectable in daily life.' },
-  { icon: '⏱️', title: 'Fast Results', desc: 'See noticeable changes in as little as 3 months of treatment.' },
-  { icon: '🍏', title: 'Removable', desc: 'Eat freely, brush normally. Remove for any special moment.' },
-  { icon: '📦', title: 'Home Delivery', desc: 'All aligners shipped directly to your door. No waiting rooms.' },
+  { icon: '✨', title: 'Invisible Fit', desc: 'Virtually undetectable clear aligners that allow you to smile confidently throughout your treatment.' },
+  { icon: '🚀', title: 'Faster Deliveries', desc: 'Get your custom aligners delivered to your doorstep in record time with our optimized logistics.' },
+  { icon: '🏥', title: 'In-Clinic Delivery', desc: 'Prefer a professional hand-off? Opt for in-clinic delivery and dedicated local doctor guidance.' },
+  { icon: '🛠️', title: 'Customised Plans', desc: 'Reduce the number of trays and treatment duration with a plan fully tailored to your specific goals.' },
 ];
 
 export default function Features() {
@@ -22,7 +22,7 @@ export default function Features() {
             transition={{ duration: 0.7 }}
           >
             <span className="section-tag">Why Choose Us?</span>
-            <h2 className="section-title">Advanced aligners.<br />Accessible pricing.</h2>
+            <h2 className="section-title">Advanced aligners<br />Accessible pricing</h2>
             <p className="section-sub">Everything you need for a perfect smile — without the endless clinic visits or premium price tag.</p>
           </motion.div>
 
@@ -54,7 +54,7 @@ export default function Features() {
                 👨‍⚕️
               </div>
               <div>
-                <h3 className="font-syne text-[1.15rem] font-extrabold text-white mb-2">100% Doctor-Directed Treatment</h3>
+                <h3 className="font-syne text-[1.15rem] font-extrabold text-white mb-2">100% Orthodontist Directed</h3>
                 <p className="text-[rgba(255,255,255,0.65)] text-[0.9rem] leading-[1.65]">Every case reviewed and monitored by licensed orthodontists. Your safety and results are always our first priority.</p>
               </div>
             </motion.div>
@@ -68,9 +68,9 @@ export default function Features() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="w-[250px] h-[500px] bg-[#1A56DB] rounded-[42px] shadow-[0_40px_80px_rgba(26,86,219,0.30),0_0_0_8px_rgba(26,86,219,0.09)] relative overflow-hidden animate-[tilt_6s_ease-in-out_infinite]"
+            className="w-[250px] h-[500px] bg-[#1A56DB] rounded-[32px] shadow-[0_40px_80px_rgba(26,86,219,0.30),0_0_0_8px_rgba(26,86,219,0.09)] relative overflow-hidden animate-[tilt_6s_ease-in-out_infinite]"
           >
-            <div className="absolute inset-[13px] bg-[#E6F200] rounded-[31px] overflow-hidden">
+            <div className="absolute inset-[6px] bg-[#E6F200] rounded-[26px] overflow-hidden">
               <div className="w-[78px] h-[22px] bg-[#1A56DB] rounded-[0_0_13px_13px] mx-auto" />
               <div className="p-4.5 px-3.5">
                 <div className="font-syne font-extrabold text-[0.82rem] text-[#1A56DB] mb-3.5">My Smile Progress 📊</div>
@@ -103,10 +103,10 @@ export default function Features() {
               </div>
             </div>
             <div className="absolute bg-white rounded-[13px] p-[9px_13px] shadow-[0_10px_28px_rgba(26,86,219,0.13)] text-[0.72rem] font-bold text-[#1A56DB] whitespace-nowrap flex items-center gap-[7px] right-[-72px] top-[44%] animate-flt [animation-delay:1.5s]">
-              <span className="text-base">✅</span>
+              <span className="text-base">📱</span>
               <div>
-                <div className="font-extrabold text-[0.72rem]">Smile Guarantee</div>
-                <div className="text-[0.66rem] text-[#5B6E99]">or full refund</div>
+                <div className="font-extrabold text-[0.72rem]">Virtual Check-ins</div>
+                <div className="text-[0.66rem] text-[#5B6E99]">Remote monitoring</div>
               </div>
             </div>
             <div className="absolute bg-white rounded-[13px] p-[9px_13px] shadow-[0_10px_28px_rgba(26,86,219,0.13)] text-[0.72rem] font-bold text-[#1A56DB] whitespace-nowrap flex items-center gap-[7px] left-[-66px] bottom-[20%] animate-flt [animation-delay:1s]">

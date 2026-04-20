@@ -6,9 +6,14 @@ export default function SpinnerWheel() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [result, setResult] = useState<string | null>(null);
   const [isSpinning, setIsSpinning] = useState(false);
+  const [isStopping, setIsStopping] = useState(false);
   const [rotation, setRotation] = useState(0);
+  
+  const requestRef = useRef<number>(null);
+  const rotationRef = useRef(0);
+  const velocityRef = useRef(0);
 
-  const numbers = ["1", "2", "3", "4", "5", "6", "7", "8"];
+  const numbers = ["₹500", "₹1000", "₹2000", "₹3000", "₹5000", "₹7000", "₹8500", "₹10000"];
   const colorMain = "#d5e100"; // Halo Green
   const colorLight = "#eef42a"; // Lighter Halo Green
   const primaryBlue = "#1a56db";
@@ -60,13 +65,6 @@ export default function SpinnerWheel() {
       ctx.fillStyle = grad;
       ctx.fill();
 
-      // Segment Brushing / Shine
-      ctx.beginPath();
-      ctx.moveTo(centerX, centerY);
-      ctx.arc(centerX, centerY, radius - 15, startAngle, startAngle + (segmentAngle * 0.1 * Math.PI) / 180);
-      ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
-      ctx.fill();
-
       // Divider Lines
       ctx.beginPath();
       ctx.moveTo(centerX, centerY);
@@ -84,15 +82,14 @@ export default function SpinnerWheel() {
       ctx.rotate(startAngle + (segmentAngle * Math.PI) / 360);
       ctx.textAlign = "right";
       
-      // Shadow for number
       ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
       ctx.shadowBlur = 4;
       ctx.shadowOffsetX = 2;
       ctx.shadowOffsetY = 2;
       
       ctx.fillStyle = primaryBlue;
-      ctx.font = "bold 64px 'Syne', sans-serif";
-      ctx.fillText(numbers[i], radius - 70, 22);
+      ctx.font = "bold 44px 'Syne', sans-serif";
+      ctx.fillText(numbers[i], radius - 45, 15);
       ctx.restore();
     }
 
@@ -109,7 +106,7 @@ export default function SpinnerWheel() {
       ctx.fill();
     }
 
-    // Center Hub (3D Look)
+    // Center Hub
     const hubGrad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 40);
     hubGrad.addColorStop(0, white);
     hubGrad.addColorStop(0.3, accentBlue);
@@ -119,81 +116,87 @@ export default function SpinnerWheel() {
     ctx.arc(centerX, centerY, 40, 0, Math.PI * 2);
     ctx.fillStyle = hubGrad;
     ctx.fill();
-    
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, 40, 0, Math.PI * 2);
-    ctx.strokeStyle = "rgba(255,255,255,0.5)";
-    ctx.lineWidth = 4;
-    ctx.stroke();
-
-    // Small inner dot
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, 10, 0, Math.PI * 2);
-    ctx.fillStyle = white;
-    ctx.fill();
-  }, [segmentAngle, totalSegments, numbers, colorMain, colorLight, primaryBlue, accentBlue, white]);
+  }, [segmentAngle, totalSegments, colorMain, colorLight, primaryBlue, accentBlue, white]);
 
   useEffect(() => {
     drawWheel();
   }, [drawWheel]);
 
-  const handleSpin = () => {
-    if (isSpinning) return;
-
-    setIsSpinning(true);
-    setResult(null);
-
-    // Wind-up rotation
-    const windUp = -20;
-    
-    // Rigged Logic: 99% Chance for 1 or 2
-    const chance = Math.floor(Math.random() * 100);
-    let targetAngle: number;
-    let finalResult: string;
-
-    if (chance < 99) {
-      const isOne = Math.random() < 0.5;
-      targetAngle = isOne ? 247.5 : 202.5; // Centers for 1 and 2
-      finalResult = isOne ? "1" : "2";
-    } else {
-      const randomIndex = Math.floor(Math.random() * 6) + 2;
-      targetAngle = (360 - (randomIndex * segmentAngle) + 270) % 360;
-      finalResult = numbers[randomIndex];
+  const animate = useCallback(() => {
+    if (isSpinning && !isStopping) {
+      rotationRef.current += velocityRef.current;
+      setRotation(rotationRef.current % 360);
+      requestRef.current = requestAnimationFrame(animate);
     }
+  }, [isSpinning, isStopping]);
 
-    const fullSpins = 8;
-    const totalRotation = (fullSpins * 360) + targetAngle;
-    const newRotation = rotation + totalRotation;
+  useEffect(() => {
+    if (isSpinning && !isStopping) {
+      requestRef.current = requestAnimationFrame(animate);
+    }
+    return () => {
+      if (requestRef.current) cancelAnimationFrame(requestRef.current);
+    };
+  }, [isSpinning, isStopping, animate]);
+
+  const handleStartSpin = () => {
+    if (isSpinning) return;
+    setIsSpinning(true);
+    setIsStopping(false);
+    setResult(null);
+    velocityRef.current = 15; // Constant speed
+  };
+
+  const handleStopSpin = () => {
+    if (!isSpinning || isStopping) return;
+    setIsStopping(true);
+
+    // Calculate landing spot
+    // We want to land on a center of a segment
+    const currentRot = rotationRef.current % 360;
+    const fullSpins = 3;
     
-    setRotation(newRotation);
+    // Rigged: land on ₹500 or ₹1000 (0 or 1 index)
+    const isOne = Math.random() < 0.5;
+    const targetIdx = isOne ? 0 : 1;
+    // targetAngle is where the segment center should be at the top (270deg offset)
+    // Actually, simpler: segment center = (idx * angle) + (angle/2)
+    // To land at pointer (top, 270deg), we need rotation R such that (targetCenter + R) % 360 == 270
+    // => R = (270 - targetCenter) % 360
+    const targetSegmentCenter = (targetIdx * segmentAngle) + (segmentAngle / 2);
+    let extraRotation = (270 - targetSegmentCenter - currentRot);
+    while (extraRotation < 0) extraRotation += 360;
+    
+    const finalTargetRotation = rotationRef.current + extraRotation + (fullSpins * 360);
+    
+    // Slow down animation using framer-motion approach in the state
+    setRotation(finalTargetRotation);
 
     setTimeout(() => {
       setIsSpinning(false);
-      setResult(finalResult);
+      setIsStopping(false);
+      setResult(numbers[targetIdx]);
       
       // Fire confetti
       const duration = 3 * 1000;
       const animationEnd = Date.now() + duration;
       const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-
       const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
 
       const interval: any = setInterval(function() {
         const timeLeft = animationEnd - Date.now();
-
-        if (timeLeft <= 0) {
-          return clearInterval(interval);
-        }
-
+        if (timeLeft <= 0) return clearInterval(interval);
         const particleCount = 50 * (timeLeft / duration);
         confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
         confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
       }, 250);
-    }, 4000);
+      
+      rotationRef.current = finalTargetRotation;
+    }, 3000); // Deceleration time
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-[320px] xs:max-w-[380px] sm:max-w-[420px] mx-auto p-2 sm:p-4 relative font-syne">
+    <div className="flex flex-col items-center justify-center w-full max-w-[320px] xs:max-w-[380px] sm:max-w-[420px] mx-auto p-2 sm:p-4 relative font-syne text-[#1a56db]">
       {/* 3D Result Banner */}
       <AnimatePresence>
         {result && (
@@ -203,7 +206,7 @@ export default function SpinnerWheel() {
             exit={{ opacity: 0, scale: 0.5 }}
             className="absolute -top-16 xs:-top-12 z-50 bg-[#d5e100] text-[#1a56db] px-4 xs:px-8 py-2 xs:py-3 rounded-2xl font-black text-lg xs:text-2xl shadow-[0_10px_30px_rgba(213,225,0,0.5)] border-4 border-white whitespace-nowrap"
           >
-            WINNER: NUMBER {result}
+            WINNER: {result}
           </motion.div>
         )}
       </AnimatePresence>
@@ -217,23 +220,20 @@ export default function SpinnerWheel() {
         </svg>
       </div>
 
-      {/* Wheel Container with Motion */}
+      {/* Wheel Container */}
       <motion.div 
-        animate={isSpinning ? { scale: [1, 0.97, 1], filter: ['blur(0px)', 'blur(1px)', 'blur(0px)'] } : {}}
-        transition={{ repeat: Infinity, duration: 0.8 }}
+        animate={isSpinning ? { scale: [1, 0.98, 1] } : {}}
+        transition={{ repeat: Infinity, duration: 2 }}
         className="relative w-full aspect-square p-2 bg-[#1a56db] rounded-full shadow-[0_20px_50px_rgba(26,86,219,0.5),inset_0_2px_10px_rgba(255,255,255,0.4)] box-border overflow-hidden"
       >
-        {/* Spinner Background Aura */}
-        <motion.div
-          animate={isSpinning ? { opacity: [0.1, 0.3, 0.1], scale: [1, 1.2, 1] } : { opacity: 0 }}
-          className="absolute inset-0 bg-white rounded-full blur-3xl pointer-events-none"
-        />
-
         <canvas
           ref={canvasRef}
           width="800"
           height="800"
-          className="w-full h-full rounded-full block bg-white transition-transform duration-[4000ms] cubic-bezier(0.15, 0, 0.15, 1)"
+          className={cn(
+            "w-full h-full rounded-full block bg-white",
+            isStopping ? "transition-transform duration-[3000ms] cubic-bezier(0.15, 0, 0.15, 1)" : ""
+          )}
           style={{ transform: `rotate(${rotation}deg)` }}
         />
       </motion.div>
@@ -243,31 +243,28 @@ export default function SpinnerWheel() {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={handleSpin}
-          disabled={isSpinning}
-          className={`
-            w-full max-w-[280px] px-10 py-5 text-xl font-black rounded-2xl uppercase tracking-[2px] transition-all duration-300
-            ${isSpinning 
+          onClick={isSpinning && !isStopping ? handleStopSpin : handleStartSpin}
+          disabled={isStopping}
+          className={cn(
+            "w-full max-w-[280px] px-10 py-5 text-xl font-black rounded-2xl uppercase tracking-[2px] transition-all duration-300",
+            isStopping 
               ? 'bg-blue-300 text-blue-700 cursor-not-allowed opacity-50' 
-              : 'bg-[#1a56db] text-[#d5e100] shadow-[0_10px_0_#123e9e,0_15px_30px_rgba(26,86,219,0.3)] hover:shadow-[0_5px_0_#123e9e,0_10px_20px_rgba(26,86,219,0.3)] active:translate-y-[5px] active:shadow-[0_2px_0_#123e9e]'
-            }
-          `}
+              : isSpinning 
+                ? 'bg-red-500 text-white shadow-[0_10px_0_#991b1b]' 
+                : 'bg-[#1a56db] text-[#d5e100] shadow-[0_10px_0_#123e9e,0_15px_30px_rgba(26,86,219,0.3)]'
+          )}
         >
-          {isSpinning ? 'Good Luck!' : 'Raise your coupon'}
+          {isStopping ? 'Stopping...' : isSpinning ? 'STOP WHEEL' : 'SPIN WHEEL'}
         </motion.button>
 
-        <AnimatePresence mode="wait">
-          <motion.div 
-            key={isSpinning ? 'spinning' : 'idle'}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="mt-8 text-lg font-bold text-[#5B6E99] tracking-widest uppercase opacity-80"
-          >
-            {isSpinning ? 'The wheel is choosing...' : 'Spin for exclusive rewards' }
-          </motion.div>
-        </AnimatePresence>
+        <div className="mt-8 text-lg font-bold text-[#5B6E99] tracking-widest uppercase opacity-80 text-center">
+          {isSpinning && !isStopping ? 'Click stop whenever you feel lucky!' : 'Ready to win big?'}
+        </div>
       </div>
     </div>
   );
+}
+
+function cn(...classes: any[]) {
+  return classes.filter(Boolean).join(' ');
 }
